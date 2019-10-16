@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -21,28 +22,12 @@ public class MainActivity extends AppCompatActivity
         this._listApps();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig)
+    private void _listApps()
     {
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
+        ArrayList<ApplicationInfo> apps_list = this._getApps();
+        AppArrayAdapter a = new AppArrayAdapter(this,apps_list);
+        ListView list = findViewById(R.id.apps_list);
+        list.setAdapter(a);
     }
 
     private ArrayList<ApplicationInfo> _getApps()
@@ -56,13 +41,5 @@ public class MainActivity extends AppCompatActivity
             return sa1.compareTo(sa2);
         });
         return apps;
-    }
-
-    private void _listApps()
-    {
-        ArrayList<ApplicationInfo> apps_list = this._getApps();
-        AppArrayAdapter a = new AppArrayAdapter(this,apps_list);
-        ListView list = findViewById(R.id.apps_list);
-        list.setAdapter(a);
     }
 }

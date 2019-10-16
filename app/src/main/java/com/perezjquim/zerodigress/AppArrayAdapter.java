@@ -26,8 +26,7 @@ public class AppArrayAdapter extends ArrayAdapter<ApplicationInfo>
         super(context, 0, apps);
         _context = context;
         _pm = _context.getPackageManager();
-        _apps = new ArrayList<>();
-        this._parseApps(apps);
+        _apps = this._parseApps(apps);
     }
 
     @Override
@@ -52,15 +51,17 @@ public class AppArrayAdapter extends ArrayAdapter<ApplicationInfo>
         return view;
     }
 
-    private void _parseApps(ArrayList<ApplicationInfo> apps)
+    private ArrayList<App> _parseApps(ArrayList<ApplicationInfo> apps_info)
     {
-        for(ApplicationInfo a : apps)
+        ArrayList<App> apps = new ArrayList<>();
+        for(ApplicationInfo a : apps_info)
         {
             String label = this._getAppLabel(a);
             Drawable icon = this._getAppIcon(a);
             String packageName = a.packageName;
-            _apps.add(new App(label,icon,packageName));
+            apps.add(new App(label, icon, packageName));
         }
+        return apps;
     }
 
     private String _getAppLabel(ApplicationInfo a)
