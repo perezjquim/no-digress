@@ -4,22 +4,48 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.*;
+import android.graphics.drawable.*;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.widget.*;
+import android.view.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity
 {
+    private AppBlocker _blocker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         super.setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+
         this._listApps();
+        _blocker = new AppBlocker(this);
+        _blocker.start();
+    }
+
+    public void onToggleAppBlock(View v)
+    {
+        LinearLayout app = (LinearLayout) v;
+
+        String packageName = ((TextView)(((LinearLayout)(app.getChildAt(1))).getChildAt(1))).getText().toString();
+
+        if(!_blocker.has(packageName))
+        {
+            app.setBackgroundColor(Color.RED);
+            _blocker.add(packageName);
+        }
+        else
+        {
+            app.setBackgroundColor(Color.WHITE);
+            _blocker.remove(packageName);
+        }
     }
 
     private void _listApps()
